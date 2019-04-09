@@ -13,7 +13,7 @@ const dotenv = require('dotenv').config();
 const VerifyToken = require('./VerifyToken');
 
 
-router.post('/register', function(req, res){
+router.post('/register', (req, res) => {
 
   const hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
@@ -35,9 +35,9 @@ router.post('/register', function(req, res){
 
 
 
-router.get('/me', VerifyToken, function(req, res, next){
+router.get('/me', VerifyToken, (req, res, next) => {
 
-  User.findById(req.userId, {password: 0}, function(err, user){
+  User.findById(req.userId, {password: 0}, (err, user) => {
     if(err) return res.status(500).send("There was a problem finding the user.");
     if (!user) return res.status(404).send("No user found.");
 
@@ -48,9 +48,9 @@ router.get('/me', VerifyToken, function(req, res, next){
 });
 
 
-router.post('/login', function(req, res){
+router.post('/login', (req, res) => {
 
-  User.findOne({email : req.body.email}, function(err, user){
+  User.findOne({email : req.body.email}, (err, user) => {
     if (err) return res.status(500).send('Error on the server.');
     if (!user) return res.status(404).send('No user found.');
 
@@ -65,7 +65,7 @@ router.post('/login', function(req, res){
 });
 
 
-router.get('/logout', VerifyToken, function(req, res, next){
+router.get('/logout', VerifyToken, (req, res, next) => {
   res.status(200).send({ auth: false, token: null });
 });
 
